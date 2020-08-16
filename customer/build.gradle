@@ -1,0 +1,33 @@
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+	implementation ('org.springframework.boot:spring-boot-starter-hateoas'){
+		exclude module: 'spring-boot-starter-tomcat'
+	}
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'org.springframework.boot:spring-boot-starter-undertow'
+	implementation ('org.springframework.boot:spring-boot-starter-web'){
+		exclude module: 'spring-boot-starter-tomcat'
+	}
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'io.opentracing.contrib:opentracing-jdbc:0.2.11'
+	implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter:3.1.2'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.4.4'
+	implementation 'org.springdoc:springdoc-openapi-data-rest:1.4.4'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+}
+
+bootJar {
+	enabled = true
+}

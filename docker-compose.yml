@@ -1,0 +1,65 @@
+version: "3.7"
+
+#volumes:
+#  sales_ora_data
+
+services:
+  #oracle_sales_customer:
+  #  container_name: oracle_sales_customer
+  #  image: quay.io/maksymbilenko/oracle-12c
+  #  ports:
+  #    - "1522:1521"
+  #    - "8089:8080"
+  #  volumes:
+  #  - sales_ora_data:/u01/app/oracle
+  mongodb_sales_order:
+    container_name: mongodb_sales_order
+    image: mongo:4.2.5-bionic
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: order
+      MONGO_INITDB_ROOT_PASSWORD: order
+      MONGO_INITDB_DATABASE: sales_order
+  mongodb_sales_product:
+    container_name: mongodb_sales_product
+    image: mongo:4.2.5-bionic
+    ports:
+      - "27020:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: product
+      MONGO_INITDB_ROOT_PASSWORD: product
+      MONGO_INITDB_DATABASE: sales_product
+  jaeger_sales:
+    container_name: jaeger_sales
+    image: jaegertracing/all-in-one:1.17
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+  kafdrop:
+    image: obsidiandynamics/kafdrop:3.27.0
+    restart: "no"
+    ports:
+      - "9001:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka:29092"
+    depends_on:
+      - "kafka"
+  kafka:
+    image: obsidiandynamics/kafka:2.3.0-11
+    restart: "no"
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    environment:
+      KAFKA_LISTENERS: "INTERNAL://:29092,EXTERNAL://:9092"
+      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:29092,EXTERNAL://localhost:9092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
