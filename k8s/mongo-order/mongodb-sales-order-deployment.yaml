@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Windows\system32\kompose.exe convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mongodb-sales-order
+  name: mongodb-sales-order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mongodb-sales-order
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Windows\system32\kompose.exe convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mongodb-sales-order
+    spec:
+      containers:
+      - env:
+        - name: MONGO_INITDB_DATABASE
+          value: sales_order
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: order
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: order
+        image: mongo:4.2.5-bionic
+        imagePullPolicy: ""
+        name: mongodb-sales-order
+        ports:
+        - containerPort: 27017
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

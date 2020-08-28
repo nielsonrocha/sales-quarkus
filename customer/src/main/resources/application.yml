@@ -1,17 +1,6 @@
 spring:
-  datasource:
-    url: jdbc:tracing:oracle:thin:@localhost:1522/xe
-    username: customer
-    password: customer
-    driver-class-name: io.opentracing.contrib.jdbc.TracingDriver
-  jpa:
-    database-platform: org.hibernate.dialect.Oracle12cDialect
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-    show-sql: true
+  profiles:
+    active: dev
   kafka:
     producer:
       bootstrap-servers: localhost:9092
@@ -20,13 +9,3 @@ spring:
     consumer:
       properties:
         spring.json.add.type.headersfalse: false
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-opentracing:
-  jaeger:
-    udp-sender:
-      host: localhost
-      port: 6831
-    service-name: sales-customer

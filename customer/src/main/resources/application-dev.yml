@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:tracing:postgresql://localhost:5432/sales_customer
+    username: postgres
+    password: postgres
+    driver-class-name: io.opentracing.contrib.jdbc.TracingDriver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+opentracing:
+  jaeger:
+    udp-sender:
+      host: localhost
+      port: 6831
+    service-name: sales-customer
